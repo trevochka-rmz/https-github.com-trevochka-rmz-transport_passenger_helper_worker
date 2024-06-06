@@ -13,7 +13,6 @@ router = Router(DataStrategyEnum.QUERY)
 router.routes = {
   "/": IndexView,
   "/settings": SettingsView,
-  # "/data": DataView,
   "/food": FoodView,
   "/services": ServicesView,
   "/schedule": ScheduleView,

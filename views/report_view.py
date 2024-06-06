@@ -1,7 +1,7 @@
 import flet as ft
 from data import dataUsers
 import pymysql
-from my_config import host, user, password, db_name
+from my_config import host, user, password, db_name,id
 
 def ReportView(router):
     report = ft.TextField(label="Здесь вы можете написать отзыв или пожаловаться, после можете отправить для руководителей", min_lines=10, max_lines=10,width=800)
@@ -21,7 +21,7 @@ def ReportView(router):
         try:
             
             with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `user_helper` SET report = '{report.value}'  WHERE id = 0;"
+                create_table_quare = f"UPDATE `user_helper` SET report = '{report.value}'  WHERE id_user = {id};"
                 cursor.execute(create_table_quare)
                 print("ok")
         finally:

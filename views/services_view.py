@@ -1,7 +1,7 @@
 import flet as ft
 from data import dataUsers
 import pymysql
-from my_config import host, user, password, db_name
+from my_config import host, user, password, db_name,id
 
 count_podushka = 0
 count_plaits = 0
@@ -27,7 +27,7 @@ def ServicesView(router):
         try:
             
             with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `services` SET count_services = {count_podushka}  WHERE name = 'Подушка';"
+                create_table_quare = f"INSERT INTO `order_services` (id_services,id_user,counts) VALUES (0,{id},{count_podushka});" 
                 cursor.execute(create_table_quare)
 
         finally:
@@ -52,7 +52,7 @@ def ServicesView(router):
         try:
             
             with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `services` SET count_services = {count_plaits}  WHERE name = 'Одеяло';"
+                create_table_quare = f"INSERT INTO `order_services` (id_services,id_user,counts) VALUES (1,{id},{count_plaits});"
                 cursor.execute(create_table_quare)
 
         finally:
@@ -77,7 +77,7 @@ def ServicesView(router):
         try:
             
             with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `services` SET count_services = {count_fork}  WHERE name = 'Приборы';"
+                create_table_quare = f"INSERT INTO `order_services` (id_services,id_user,counts) VALUES (2,{id},{count_fork});"
                 cursor.execute(create_table_quare)
 
         finally:
@@ -103,7 +103,7 @@ def ServicesView(router):
         try:
             
             with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `services` SET count_services = {count_soud}  WHERE name = 'Наушники';"
+                create_table_quare = f"INSERT INTO `order_services` (id_services,id_user,counts) VALUES (3,{id},{count_soud});"
                 cursor.execute(create_table_quare)
 
         finally:
@@ -128,7 +128,7 @@ def ServicesView(router):
         try:
             
             with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `services` SET count_services = {count_telephone}  WHERE name = 'Телефон';"
+                create_table_quare = f"INSERT INTO `order_services` (id_services,id_user,counts) VALUES (4,{id},{count_telephone});"
                 cursor.execute(create_table_quare)
 
         finally:
@@ -153,7 +153,7 @@ def ServicesView(router):
         try:
             
             with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `services` SET count_services = {count_provodnik}  WHERE name = 'Проводник';"
+                create_table_quare = f"INSERT INTO `order_services` (id_services,id_user,counts) VALUES (5,{id},{count_provodnik});"
                 cursor.execute(create_table_quare)
 
         finally:
@@ -188,6 +188,7 @@ def ServicesView(router):
                     [
                         ft.Image(src=f"/podushka.jpg", width=200, border_radius=100),
                         ft.Text("Подушка"),
+                        ft.Text("Цена: 300рублей"),
                         send_button
 
                     ],
@@ -197,6 +198,7 @@ def ServicesView(router):
                     [
                         ft.Image(src=f"/plaid.jpg", width=200, border_radius=100),
                         ft.Text("Одеяло"),
+                        ft.Text("Цена: 500рублей"),
                         send_button2
 
                     ],
@@ -206,6 +208,7 @@ def ServicesView(router):
                     [
                         ft.Image(src=f"/fork.jpg", width=200, border_radius=100),
                         ft.Text("Приборы"),
+                        ft.Text("Цена: 100рублей"),
                         send_button3
 
                     ],
@@ -220,6 +223,7 @@ def ServicesView(router):
                     [
                         ft.Image(src=f"/sound.jpg", width=180, border_radius=100),
                         ft.Text("Наушники"),
+                        ft.Text("Цена: 900рублей"),
                         send_button4
 
                     ],
@@ -229,6 +233,7 @@ def ServicesView(router):
                     [
                         ft.Image(src=f"/telephone.jpg", width=200, border_radius=100),
                         ft.Text("Телефон"),
+                        ft.Text("Цена: 600рублей"),
                         send_button5
 
                     ],

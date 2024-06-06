@@ -3,7 +3,7 @@ import flet as ft
 import sqlite3
 from data import dataUsers
 import pymysql
-from my_config import host, user, password, db_name
+from my_config import host, user, password, db_name,id
 
 count_tea = 0
 count_cola = 0
@@ -26,10 +26,9 @@ def FoodView(router):
         except Exception as ex:
             print("Connection refused...")
             print(ex)
-        try:
-            
+        try:           
             with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `food_drinks` SET count = {count_tea}  WHERE name = 'Чай';"
+                create_table_quare = f"INSERT INTO `order_food` (id_food,id_user,counts) VALUES (0,{id},{count_tea});" 
                 cursor.execute(create_table_quare)
                 print("ok")
         finally:
@@ -54,7 +53,7 @@ def FoodView(router):
         try:
             
             with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `food_drinks` SET count = {count_cola}  WHERE name = 'Кола';"
+                create_table_quare = f"INSERT INTO `order_food` (id_food,id_user,counts) VALUES (1,{id},{count_cola});" 
                 cursor.execute(create_table_quare)
                 print("ok")
         finally:
@@ -80,7 +79,7 @@ def FoodView(router):
         try:
             
             with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `food_drinks` SET count = {count_mors}  WHERE name = 'Морс';"
+                create_table_quare = f"INSERT INTO `order_food` (id_food,id_user,counts) VALUES (2,{id},{count_mors});" 
                 cursor.execute(create_table_quare)
         finally:
             connection.commit()
@@ -104,7 +103,7 @@ def FoodView(router):
         try:
             
             with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `food_drinks` SET count = {count_sandwich}  WHERE name = 'Сэндвич';"
+                create_table_quare = f"INSERT INTO `order_food` (id_food,id_user,counts) VALUES (5,{id},{count_sandwich});" 
                 cursor.execute(create_table_quare)
         finally:
             connection.commit()
@@ -128,7 +127,7 @@ def FoodView(router):
         try:
             
             with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `food_drinks` SET count = {count_soup}  WHERE name = 'Суп';"
+                create_table_quare = f"INSERT INTO `order_food` (id_food,id_user,counts) VALUES (4,{id},{count_soup});" 
                 cursor.execute(create_table_quare)
         finally:
             connection.commit()
@@ -152,7 +151,7 @@ def FoodView(router):
         try:
             
             with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `food_drinks` SET count = {count_salat}  WHERE name = 'Салат';"
+                create_table_quare = f"INSERT INTO `order_food` (id_food,id_user,counts) VALUES (3,{id},{count_salat});" 
                 cursor.execute(create_table_quare)
         finally:
             connection.commit()
