@@ -3,7 +3,7 @@ import flet as ft
 import sqlite3
 from data import dataUsers
 import pymysql
-from my_config import host, user, password, db_name
+from my_config import host, user, password, db_name,id
 
 count_tea = 0
 count_cola = 0
@@ -12,244 +12,55 @@ count_salat = 0
 count_soup = 0
 count_sandwich = 0
 def FoodView(router):
-    def food1(e):
-        global count_tea
-        count_tea+=1
-        try:
-            connection = pymysql.connect(
-                host=host, 
-                user = user,
-                password=password,
-                database= db_name,
-                cursorclass=pymysql.cursors.DictCursor)
-            print("connect successfully")
-        except Exception as ex:
-            print("Connection refused...")
-            print(ex)
-        try:
-            
-            with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `food_drinks` SET count = {count_tea}  WHERE name = 'Чай';"
-                cursor.execute(create_table_quare)
-                print("ok")
-        finally:
-            connection.commit()
-            connection.close()
-        dataUsers["food_drinks"]["Чай"]["count"] = count_tea
-
-    def food2(e):
-        global count_cola
-        count_cola+=1
-        try:
-            connection = pymysql.connect(
-                host=host, 
-                user = user,
-                password=password,
-                database= db_name,
-                cursorclass=pymysql.cursors.DictCursor)
-            print("connect successfully")
-        except Exception as ex:
-            print("Connection refused...")
-            print(ex)
-        try:
-            
-            with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `food_drinks` SET count = {count_cola}  WHERE name = 'Кола';"
-                cursor.execute(create_table_quare)
-                print("ok")
-        finally:
-            connection.commit()
-            connection.close()
-        dataUsers["food_drinks"]["Кола"]["count"] = count_cola
-        
-
-    def food3(e):
-        global count_mors
-        count_mors+=1
-        try:
-            connection = pymysql.connect(
-                host=host, 
-                user = user,
-                password=password,
-                database= db_name,
-                cursorclass=pymysql.cursors.DictCursor)
-            print("connect successfully")
-        except Exception as ex:
-            print("Connection refused...")
-            print(ex)
-        try:
-            
-            with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `food_drinks` SET count = {count_mors}  WHERE name = 'Морс';"
-                cursor.execute(create_table_quare)
-        finally:
-            connection.commit()
-            connection.close()
-        dataUsers["food_drinks"]["Морс"]["count"] = count_mors
-
-    def food4(e):
-        global count_sandwich
-        count_sandwich+=1
-        try:
-            connection = pymysql.connect(
-                host=host, 
-                user = user,
-                password=password,
-                database= db_name,
-                cursorclass=pymysql.cursors.DictCursor)
-
-        except Exception as ex:
-            print("Connection refused...")
-            print(ex)
-        try:
-            
-            with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `food_drinks` SET count = {count_sandwich}  WHERE name = 'Сэндвич';"
-                cursor.execute(create_table_quare)
-        finally:
-            connection.commit()
-            connection.close()
-        dataUsers["food_drinks"]["Сэндвич"]["count"] = count_sandwich
-
-    def food5(e):
-        global count_soup
-        count_soup+=1
-        try:
-            connection = pymysql.connect(
-                host=host, 
-                user = user,
-                password=password,
-                database= db_name,
-                cursorclass=pymysql.cursors.DictCursor)
-            print("connect successfully")
-        except Exception as ex:
-            print("Connection refused...")
-            print(ex)
-        try:
-            
-            with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `food_drinks` SET count = {count_soup}  WHERE name = 'Суп';"
-                cursor.execute(create_table_quare)
-        finally:
-            connection.commit()
-            connection.close()
-        dataUsers["food_drinks"]["Суп"]["count"] = count_soup
-
-    def food6(e):
-        global count_salat
-        count_salat+=1
-        try:
-            connection = pymysql.connect(
-                host=host, 
-                user = user,
-                password=password,
-                database= db_name,
-                cursorclass=pymysql.cursors.DictCursor)
-            print("connect successfully")
-        except Exception as ex:
-            print("Connection refused...")
-            print(ex)
-        try:
-            
-            with connection.cursor() as cursor:
-                create_table_quare = f"UPDATE `food_drinks` SET count = {count_salat}  WHERE name = 'Салат';"
-                cursor.execute(create_table_quare)
-        finally:
-            connection.commit()
-            connection.close()
-        dataUsers["food_drinks"]["Салат"]["count"] = count_salat
-
-        
-    send_button = ft.ElevatedButton("Заказать")
-    send_button2 = ft.ElevatedButton("Заказать")
-    send_button3 = ft.ElevatedButton("Заказать")
-    send_button4 = ft.ElevatedButton("Заказать")
-    send_button5 = ft.ElevatedButton("Заказать")
-    send_button6 = ft.ElevatedButton("Заказать")
-    send_button.on_click = food1
-    send_button2.on_click = food2
-    send_button3.on_click = food3
-    send_button4.on_click = food4
-    send_button5.on_click = food5
-    send_button6.on_click = food6
+    order = []
+    try:
+        connection = pymysql.connect(
+            host=host, 
+            user = user,
+            password=password,
+            database= db_name,
+            cursorclass=pymysql.cursors.DictCursor)
+        print("connect successfully")
+    except Exception as ex:
+        print("Connection refused...")
+        print(ex)
+    try:           
+        with connection.cursor() as cursor:
+            create_table_quare = f"SELECT order_food.id_user, food_drinks.name,food_drinks.price, order_food.counts FROM `order_food` INNER JOIN `food_drinks` ON order_food.id_food = food_drinks.id_food; " 
+            cursor.execute(create_table_quare)
+            row = cursor.fetchall()
+            for i in row:
+                order.append(i)
+            print(order)
+            print("#"*20)
+    finally:
+        connection.commit()
+        connection.close()
+    def items():
+        item = []
+        for i in order:
+            item.append(     
+                ft.Row(
+                [   
+                    ft.Text(f"ID пользователя - {i['id_user']},", size=20), 
+                    ft.Text(f"Название - {i['name']},", size=20), 
+                    ft.Text(f"Цена - {i['price']},", size=20), 
+                    ft.Text(f"Количество - {i['counts']},", size=20), 
+                    ], 
+                alignment=ft.MainAxisAlignment.CENTER
+            ))
+        return item
+    
     content = ft.Column(          
             [
                 ft.Row(
-                [
+                [   
                     ft.Text("Еда и напитки", size=30), 
                     ft.IconButton( icon = ft.icons.FOOD_BANK,icon_size=30),
                     ], 
                 alignment=ft.MainAxisAlignment.CENTER
             ),
-                ft.Row([
-                    ft.Column(
-                    [
-                        ft.Image(src=f"/tea.jpg", width=200, border_radius=100),
-                        ft.Text("Чай"),
-                        ft.Text("Цена: 50рублей"),
-                        send_button
-
-                    ],
-                    alignment=ft.MainAxisAlignment.CENTER
-                    ),
-                    ft.Column(
-                    [
-                        ft.Image(src=f"/cola.jpg", width=200, border_radius=100),
-                        ft.Text("Кола"),
-                        ft.Text("Цена: 150рублей"),
-                        send_button2
-
-                    ],
-                    alignment=ft.MainAxisAlignment.CENTER
-                    ),
-                    ft.Column(
-                    [
-                        ft.Image(src=f"/mors.jpg", width=200, border_radius=100),
-                        ft.Text("Морс"),
-                        ft.Text("Цена: 50рублей"),
-                        send_button3
-
-                    ],
-                    alignment=ft.MainAxisAlignment.CENTER
-                    ),
-                ], alignment=ft.MainAxisAlignment.CENTER, spacing = 70
-
-                ) ,
-            
-                ft.Row([
-                    ft.Column(
-                    [
-                        ft.Image(src=f"/sandwich.jpg", width=200, border_radius=100),
-                        ft.Text("Сэндвич"),
-                        ft.Text("Цена: 150рублей"),
-                        send_button4
-
-                    ],
-                    alignment=ft.MainAxisAlignment.CENTER
-                    ),
-                    ft.Column(
-                    [
-                        ft.Image(src=f"/soup.jpg", width=200, border_radius=100),
-                        ft.Text("Суп"),
-                        ft.Text("Цена: 250рублей"),
-                        send_button5
-
-                    ],
-                    alignment=ft.MainAxisAlignment.CENTER
-                    ),
-                    ft.Column(
-                    [
-                        ft.Image(src=f"/salat.jpg", width=200, border_radius=100),
-                        ft.Text("Салат"),
-                        ft.Text("Цена: 250рублей"),
-                        send_button6
-
-                    ],
-                    alignment=ft.MainAxisAlignment.CENTER
-                    ),
-                ], alignment=ft.MainAxisAlignment.CENTER, spacing = 70
-
-                ) ,
+            ft.Column(controls=items(), alignment=ft.MainAxisAlignment.CENTER)            
 
             ]
         )
